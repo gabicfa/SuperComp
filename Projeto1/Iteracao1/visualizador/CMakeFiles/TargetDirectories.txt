@@ -1,0 +1,3 @@
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/CMakeFiles/rebuild_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/CMakeFiles/edit_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/CMakeFiles/visualizador.dir

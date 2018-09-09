@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/body.h
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/main.cpp
+visualizador.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/visualizador.h
+iostream
+-
+vector
+-
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/visualizador.cpp
+visualizador.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/visualizador.h
+SDL2/SDL.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/SDL2/SDL.h
+SDL2/SDL2_gfxPrimitives.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/SDL2/SDL2_gfxPrimitives.h
+stdio.h
+-
+iostream
+-
+math.h
+-
+chrono
+-
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/visualizador.h
+SDL2/SDL.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/SDL2/SDL.h
+body.h
+/home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao1/visualizador/body.h
+vector
+-
+
