@@ -26,11 +26,20 @@
 #include "visualizador.h"
 #include <iostream>
 #include <vector>
+#include <stdlib.h>  
+#include <chrono>
+
+
 using namespace std;
+using namespace std::chrono;
+
 
 int main(int argc, char ** argv) {
+
     int W, H, N;
     float mu, alpha_w, alpha_b;
+    char* dt;
+    double t;
 
     cin >> W >> H >> N;
     cin >> mu >> alpha_w >> alpha_b;
@@ -44,9 +53,22 @@ int main(int argc, char ** argv) {
         balls.push_back(curr_ball);
         i++;
     }
-    Visualizador v(balls, W, H, 0.01, N, mu, alpha_w, alpha_b);
     
+    dt = getenv ("DELTA_T");
+    if (dt==NULL){
+        t = 0.01;
+    }
+    else{
+        t = atof(dt);
+    }
+    
+    Visualizador v(balls, W, H, t, N, mu, alpha_w, alpha_b);
+    
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     v.run();
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
 
+    cout << "duration: " << time_span.count() << '\n';
     return 0; 
 }

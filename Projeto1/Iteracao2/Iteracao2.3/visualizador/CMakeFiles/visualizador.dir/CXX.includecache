@@ -19,6 +19,10 @@ iostream
 -
 vector
 -
+stdlib.h
+-
+chrono
+-
 
 /home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao2/Iteracao2.3/visualizador/visualizador.cpp
 visualizador.h
@@ -34,6 +38,8 @@ iostream
 math.h
 -
 omp.h
+-
+stdlib.h
 -
 chrono
 -

@@ -1,6 +1,21 @@
 project(visualizador)
 cmake_minimum_required(VERSION 2.8)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp -lpthread -O2")
+
+message("STRATEGY: $ENV{STRATEGY}")
+
+if("$ENV{STRATEGY}" MATCHES "omp")
+    set (CMAKE_CXX_FLAGS "-std=c++11 -fopenmp -lpthread -O2")
+
+elseif("$ENV{STRATEGY}" MATCHES "simd")
+    set (CMAKE_CXX_FLAGS "-std=c++11 -ffast-math -ftree-vectorize -mavx2 -O2")
+
+elseif("$ENV{STRATEGY}" MATCHES "seq")
+    set (CMAKE_CXX_FLAGS "-std=c++11")
+
+else()
+    set (CMAKE_CXX_FLAGS "-std=c++11 -fopenmp -lpthread -O2")
+    
+endif()
 
 # Point to our own cmake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMakeModules)

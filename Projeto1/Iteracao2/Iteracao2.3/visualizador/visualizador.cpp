@@ -31,10 +31,11 @@
 #include <iostream>
 #include <math.h>
 #include <omp.h>
-
+#include <stdlib.h>    
 #include <chrono>
 using namespace std;
-
+char* gui= getenv ("GUI");
+     
 typedef std::chrono::high_resolution_clock Time;
 
 Visualizador::Visualizador(std::vector<ball> &bodies, int field_width, int field_height, double delta_t, int N, double mu, double alpha_w, double alpha_b):
@@ -57,15 +58,24 @@ Visualizador::Visualizador(std::vector<ball> &bodies, int field_width, int field
         win_width = max_dimension * ratio;
         win_height = max_dimension;
     }
-    win = SDL_CreateWindow("Visualizador SUPERCOMP", SDL_WINDOWPOS_CENTERED,
-                           SDL_WINDOWPOS_CENTERED, win_width, win_height, 0);
-    renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+
+    if(atof(gui) != 0){
+        win = SDL_CreateWindow("Visualizador SUPERCOMP", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, win_width, win_height, 0);
+        renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+    }
+
+    T=0;
+    Tacs =0;
+    Tact = 0;
     iter = 0;
+    fim =0;
 }
 
 Visualizador::~Visualizador() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(win);
+    if(atof(gui) != 0){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(win);
+    }
     SDL_Quit();
 }
 
@@ -82,21 +92,46 @@ void Visualizador::draw() {
 }
 
 void Visualizador::run() {
-    SDL_ShowWindow(win);
-    draw();
-    while (!SDL_QuitRequested()) {
-        do_iteration();       
+    if(atof(gui) != 0){
+        SDL_ShowWindow(win);
         draw();
+        while(!SDL_QuitRequested()){
+            fim = do_iteration();
+            draw();
+        }
     }
+    else{
+        while (fim ==0 && iter<10000) {
+            cout<<"iter: "<< iter <<'\n';
+            fim = do_iteration(); 
+        } 
+    }
+       
 }
 
-void Visualizador::do_iteration() {
+int Visualizador::do_iteration() {
 
-    walk();
-    collision();
-    checkMerge();
-    update();
-    iter++;
+    if(atof(gui) == 0){
+        fim = checkIfEnded(); 
+        if(fim){
+            T = guiMode(1, delta_t);    
+        }
+    }
+
+    if(fim == 0){
+
+        walk();
+        collision();
+        checkMerge();
+        update();
+        if(atof(gui) == 0){
+            T = guiMode(T, delta_t);
+        }
+
+        Tact =Tact+delta_t;
+        iter++;
+    } 
+    return fim;
 }
 
 void Visualizador::walk(){
@@ -134,6 +169,7 @@ void Visualizador::walk(){
 }
 
 void Visualizador::collision(){
+
     #pragma omp parallel for
     for(int b = 0; b<num_balls; b++){
         
@@ -151,13 +187,19 @@ void Visualizador::collision(){
         }
 
         for(int c = b+1; c < num_balls; c++){
-            // cout << "ID:" << omp_get_thread_num() << "/" << omp_get_num_threads() << "\n";
-            cout << "b: " << bodiesProximo[b].id << " c: " << bodiesProximo[c].id << '\n';
             double rx = bodiesProximo[c].x - bodiesProximo[b].x;
             double ry = bodiesProximo[c].y - bodiesProximo[b].y;
             double r = sqrt(pow(rx,2) + pow(ry,2));
 
-            if (r <= bodiesProximo[b].radius + bodiesProximo[c].radius-1E-9){
+            if (r < bodiesProximo[b].radius + bodiesProximo[c].radius){
+
+                if(atof(gui) == 0){
+                    #pragma omp critical
+                    {
+                        cout << "CHOQUE " << bodiesProximo[b].id << " " << bodiesProximo[c].id << " " << Tact << '\n';
+                        cout << '\n';
+                    }     
+                }
 
                 double vBCx = bodiesProximo[b].vx - bodiesProximo[c].vx;
                 double vBCy = bodiesProximo[b].vy - bodiesProximo[c].vy;
@@ -174,7 +216,7 @@ void Visualizador::collision(){
 
                 double vCrxn = ((2*bodiesProximo[b].mass)/(bodiesProximo[b].mass + bodiesProximo[c].mass))*vBrx;
                 double vCryn = ((2*bodiesProximo[b].mass)/(bodiesProximo[b].mass + bodiesProximo[c].mass))*vBry;
-
+                
                 bodiesProximo[b].vx=(vBrxn+vBrpx)+bodiesProximo[c].vx;
                 bodiesProximo[b].vy=(vBryn+vBrpy)+bodiesProximo[c].vy;
                 
@@ -187,7 +229,7 @@ void Visualizador::collision(){
 
 void Visualizador::checkMerge(){
 
-    // #pragma omp parallel for
+    #pragma omp parallel for
     for(int b = 0; b< num_balls; b++){
 
         if(bodiesProximo[b].x + bodiesProximo[b].radius >= field_width){
@@ -225,3 +267,32 @@ void Visualizador::update(){
         bodiesAtual[b] = bodiesProximo[b];
     }
 }
+
+double Visualizador::guiMode(double T, double t){
+    T = T+t;
+    if(T>=1){
+        Tacs+=1;
+        cout << "Tempo atual da simulacao: " << Tacs << " segundos"<<'\n';
+        for(int i = 0; i<num_balls;i++){
+            cout << bodiesProximo[i].id << " " << bodiesProximo[i].radius << " " << bodiesProximo[i].mass << " " << bodiesProximo[i].x << " " << bodiesProximo[i].y << " " << bodiesProximo[i].vx << " " << bodiesProximo[i].vy << '\n';      
+        }
+        cout << '\n';
+        T=0;
+    }
+    return T;
+}
+
+bool Visualizador::checkIfEnded(){
+    bool f = true; 
+    #pragma omp parallel for reduction (&:f)
+    for(int b=0; b<num_balls; b++){
+        if(bodiesAtual[b]. vx != 0 || bodiesAtual[b].vy !=0){
+            f = f & false;
+        }
+        else{
+            f=f & true;
+        }
+    }
+    return f;
+}
+

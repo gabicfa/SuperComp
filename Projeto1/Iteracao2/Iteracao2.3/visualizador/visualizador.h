@@ -46,12 +46,13 @@ class Visualizador
 public:
     long iter;
     double delta_t;
+    double T, Tacs, Tact;
+    bool fim;
     
-
     Visualizador(std::vector<ball> &bodies, int field_width, int field_height, double delta_t, int N, double mu, double alpha_w, double alpha_b);
     ~Visualizador();
 
-    void do_iteration();
+    int do_iteration();
     void run();
 
 private:
@@ -71,6 +72,9 @@ private:
     void collision();
     void checkMerge();
     void update(); 
+    
+    double guiMode(double T, double t);
+    bool checkIfEnded();
 };
 
 #endif // VISUALIZADOR_H
