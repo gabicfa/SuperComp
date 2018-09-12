@@ -48,6 +48,7 @@ public:
     double delta_t;
     double T, Tacs, Tact;
     bool fim;
+    std::vector<std::tuple<int,int,double>> choques;
     
     Visualizador(std::vector<ball> &bodies, int field_width, int field_height, double delta_t, int N, double mu, double alpha_w, double alpha_b);
     ~Visualizador();

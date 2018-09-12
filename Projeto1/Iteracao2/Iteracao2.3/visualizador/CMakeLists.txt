@@ -14,7 +14,6 @@ elseif("$ENV{STRATEGY}" MATCHES "seq")
 
 else()
     set (CMAKE_CXX_FLAGS "-std=c++11 -fopenmp -lpthread -O2")
-    
 endif()
 
 # Point to our own cmake modules

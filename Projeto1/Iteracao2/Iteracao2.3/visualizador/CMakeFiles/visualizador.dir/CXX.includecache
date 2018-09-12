@@ -43,6 +43,8 @@ stdlib.h
 -
 chrono
 -
+tuple
+-
 
 /home/gabicfa/Documents/SuperComp/SuperComp/Projeto1/Iteracao2/Iteracao2.3/visualizador/visualizador.h
 SDL2/SDL.h
