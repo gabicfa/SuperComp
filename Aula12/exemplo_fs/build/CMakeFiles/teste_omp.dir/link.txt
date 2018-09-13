@@ -1,0 +1,1 @@
+/usr/bin/x86_64-linux-gnu-g++-5  -g   CMakeFiles/teste_omp.dir/teste_omp.cpp.o  -o teste_omp /usr/lib/gcc/x86_64-linux-gnu/5/libgomp.so -lpthread 

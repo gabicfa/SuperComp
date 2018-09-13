@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/teste_omp.cpp
+iostream
+-
+omp.h
+-
+

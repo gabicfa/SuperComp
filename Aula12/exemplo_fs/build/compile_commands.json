@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-5    -g   -fopenmp -std=gnu++11 -o CMakeFiles/teste_omp.dir/teste_omp.cpp.o -c /home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/teste_omp.cpp",
+  "file": "/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/teste_omp.cpp"
+},
+{
+  "directory": "/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-5    -g   -std=gnu++11 -o CMakeFiles/exemplo_fs.dir/exemplo_fs.cpp.o -c /home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/exemplo_fs.cpp",
+  "file": "/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/exemplo_fs.cpp"
+}
+]

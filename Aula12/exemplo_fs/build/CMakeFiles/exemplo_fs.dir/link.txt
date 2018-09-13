@@ -1,0 +1,1 @@
+/usr/bin/x86_64-linux-gnu-g++-5  -g   CMakeFiles/exemplo_fs.dir/exemplo_fs.cpp.o  -o exemplo_fs /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so 

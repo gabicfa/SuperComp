@@ -1,0 +1,4 @@
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build/CMakeFiles/rebuild_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build/CMakeFiles/edit_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build/CMakeFiles/teste_omp.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/build/CMakeFiles/exemplo_fs.dir

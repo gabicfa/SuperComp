@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/exemplo_fs.cpp
+iostream
+-
+fstream
+-
+boost/filesystem.hpp
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula12/exemplo_fs/boost/filesystem.hpp
+
