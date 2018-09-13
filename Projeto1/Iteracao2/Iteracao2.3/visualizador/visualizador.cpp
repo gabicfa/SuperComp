@@ -305,4 +305,3 @@ bool Visualizador::checkIfEnded(){
     }
     return f;
 }
-

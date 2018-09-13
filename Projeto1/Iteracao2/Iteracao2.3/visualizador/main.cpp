@@ -69,6 +69,7 @@ int main(int argc, char ** argv) {
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double> >(t2 - t1);
 
-    cout << "DURATION: " << time_span.count() << '\n';
+    cout << time_span.count();
+    
     return 0; 
 }
