@@ -1,0 +1,705 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Relat??rio sobre desempenho SIMD\_gabrielacfa\_tentativa\_2018-08-13-13-05-59\_Tarefa3 - Avaliac??a??o de desempenho}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{tarefa-3-avaliauxe7uxe3o-de-desempenho}{%
+\subsection{TAREFA 3 -- AVALIAÇÃO DE
+DESEMPENHO}\label{tarefa-3-avaliauxe7uxe3o-de-desempenho}}
+
+\hypertarget{gabriela-almeida}{%
+\subsubsection{Gabriela Almeida}\label{gabriela-almeida}}
+
+    É possível tornar um programa mais eficiente usando opções do compilador
+para gerar instruções SIMD. O objetivo dessa tarefa é quantificar essa
+diferença de desempenho usando funções que consistem em manipulações
+matemáticas em vetores de tamanhos variados. Essas diferentes funções
+estão presentes no arquivo \emph{funcs.cpp}, o qual ao ser compilado e
+executado gera 21 vetores com conteúdos e tamanhos variados (de 100 a
+100 milhões de elementos) e calcula o tempo que demorar para executar
+cada função em todos os elementos desses vetores. Por fim é gerado um
+arquivo \emph{t3Tempos.txt} que contem um vetor chamado ``tamanhos'' o
+qual possui os tamanhos dos vetores usados para fazer os cálculos em
+cada iteração. Além disso, contem vetores para cada tipo de função, o
+qual possui o tempo gasto para fazer aquele cálculo naquela iteração.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{Image}
+        \PY{n}{Image}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Figura1.png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        TypeError                                 Traceback (most recent call last)
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/formatters.py in \_\_call\_\_(self, obj, include, exclude)
+        968 
+        969             if method is not None:
+    --> 970                 return method(include=include, exclude=exclude)
+        971             return None
+        972         else:
+
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/display.py in \_repr\_mimebundle\_(self, include, exclude)
+       1207         if self.embed:
+       1208             mimetype = self.\_mimetype
+    -> 1209             data, metadata = self.\_data\_and\_metadata(always\_both=True)
+       1210             if metadata:
+       1211                 metadata = \{mimetype: metadata\}
+
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/display.py in \_data\_and\_metadata(self, always\_both)
+       1216     def \_data\_and\_metadata(self, always\_both=False):
+       1217         """shortcut for returning metadata with shape information, if defined"""
+    -> 1218         b64\_data = b2a\_base64(self.data).decode('ascii')
+       1219         md = \{\}
+       1220         if self.metadata:
+
+
+        TypeError: a bytes-like object is required, not 'str'
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        TypeError                                 Traceback (most recent call last)
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/formatters.py in \_\_call\_\_(self, obj)
+        343             method = get\_real\_method(obj, self.print\_method)
+        344             if method is not None:
+    --> 345                 return method()
+        346             return None
+        347         else:
+
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/display.py in \_repr\_png\_(self)
+       1233     def \_repr\_png\_(self):
+       1234         if self.embed and self.format == self.\_FMT\_PNG:
+    -> 1235             return self.\_data\_and\_metadata()
+       1236 
+       1237     def \_repr\_jpeg\_(self):
+
+
+        /anaconda3/lib/python3.6/site-packages/IPython/core/display.py in \_data\_and\_metadata(self, always\_both)
+       1216     def \_data\_and\_metadata(self, always\_both=False):
+       1217         """shortcut for returning metadata with shape information, if defined"""
+    -> 1218         b64\_data = b2a\_base64(self.data).decode('ascii')
+       1219         md = \{\}
+       1220         if self.metadata:
+
+
+        TypeError: a bytes-like object is required, not 'str'
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}1}]:} <IPython.core.display.Image object>
+\end{Verbatim}
+            
+    Analisando a imagem a cima é possível deduzir que na primeira iteração
+foi gerado um vetor de 100 elementos e que para calcular, por exemplo, a
+raiz de cada um deles (tempo\_sqrt\_element) demorou 7.42 e-07 segundos.
+Já na segunda iteração foi gerado um vetor com 200 elementos e para
+calcular o exponencial de cada um deles (tempo\_exp\_element) demorou
+5.189 e-06 segundos. Para poder quantificar a diferença de desempenho é
+preciso compilar o arquivo \emph{funcs.cpp} de diferentes formas.
+Primeiramente ele é compilado sem habilitar a auto vetorização:
+
+    \begin{verbatim}
+g++ -o funcsSemSIMD funcs.cpp
+\end{verbatim}
+
+    e então esse programa é executado gerando o arquivo \emph{t3Tempos.txt}
+o qual é aconselhável renomear pois quando compilar o arquivo
+\emph{funcs.cpp} novamente, porém habilitando a auto vetorização, esse
+arquivo será sobrescrito. Portanto renomeia-se o arquivo para
+\emph{t3TemposSemSIMD.txt}. Em um segundo momento compila-se o programa
+habilitando a auto vetorização e utilizando uma arquitetura AVX:
+
+    \begin{verbatim}
+g++ -ffast-math -ftree-vectorize -mavx -o funcscomSIMDAVX funcs.cpp
+\end{verbatim}
+
+    Após a execução do programa renomeia-se o arquivo de saída gerado para
+\emph{t3TemposcomSIMDAVX.txt}. Por fim o programa é compilado
+habilitando a auto vetorização utilizando uma arquitetura AVX2:
+
+    \begin{verbatim}
+g++ -ffast-math -ftree-vectorize -mavx2 -o funcscomSIMDAVX2 funcs.cpp
+\end{verbatim}
+
+    e após a execução do programa é aconselhável renomear o arquivo de saída
+para \emph{t3TemposcomSIMDAVX2.txt.}
+
+    Esses arquivos de saída foram importados nesse notebook e para poder
+diferenciar os vetores de cada um deles seus nomes foram alterados. Nos
+vetores do arquivo \emph{t3TemposSemSIMD.txt} foi adicionado
+"\_sem\_SIMD" ao final:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{tamanhos}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{400}\PY{p}{,} \PY{l+m+mi}{800}\PY{p}{,} \PY{l+m+mi}{1600}\PY{p}{,} \PY{l+m+mi}{3200}\PY{p}{,} \PY{l+m+mi}{6400}\PY{p}{,} \PY{l+m+mi}{12800}\PY{p}{,} \PY{l+m+mi}{25600}\PY{p}{,} \PY{l+m+mi}{51200}\PY{p}{,} \PY{l+m+mi}{102400}\PY{p}{,} \PY{l+m+mi}{204800}\PY{p}{,} \PY{l+m+mi}{409600}\PY{p}{,} \PY{l+m+mi}{819200}\PY{p}{,} \PY{l+m+mi}{1638400}\PY{p}{,} \PY{l+m+mi}{3276800}\PY{p}{,} \PY{l+m+mi}{6553600}\PY{p}{,} \PY{l+m+mi}{13107200}\PY{p}{,} \PY{l+m+mi}{26214400}\PY{p}{,} \PY{l+m+mi}{52428800}\PY{p}{,} \PY{l+m+mi}{104857600}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{1.437e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{8.14e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.486e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.925e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.806e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.1536e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.1364e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.4729e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.9376e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000179165}\PY{p}{,} \PY{l+m+mf}{0.000357376}\PY{p}{,} \PY{l+m+mf}{0.000659394}\PY{p}{,} \PY{l+m+mf}{0.00132275}\PY{p}{,} \PY{l+m+mf}{0.00276361}\PY{p}{,} \PY{l+m+mf}{0.00529802}\PY{p}{,} \PY{l+m+mf}{0.0106888}\PY{p}{,} \PY{l+m+mf}{0.0212054}\PY{p}{,} \PY{l+m+mf}{0.0464522}\PY{p}{,} \PY{l+m+mf}{0.0874939}\PY{p}{,} \PY{l+m+mf}{0.183272}\PY{p}{,} \PY{l+m+mf}{0.353896}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{5.92e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.044e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.893e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{3.988e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{7.539e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.5104e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.9599e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.8329e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000117067}\PY{p}{,} \PY{l+m+mf}{0.000253735}\PY{p}{,} \PY{l+m+mf}{0.000480179}\PY{p}{,} \PY{l+m+mf}{0.00108333}\PY{p}{,} \PY{l+m+mf}{0.00177916}\PY{p}{,} \PY{l+m+mf}{0.00351841}\PY{p}{,} \PY{l+m+mf}{0.00693118}\PY{p}{,} \PY{l+m+mf}{0.0146096}\PY{p}{,} \PY{l+m+mf}{0.029133}\PY{p}{,} \PY{l+m+mf}{0.0600793}\PY{p}{,} \PY{l+m+mf}{0.117348}\PY{p}{,} \PY{l+m+mf}{0.232968}\PY{p}{,} \PY{l+m+mf}{0.489947}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{7.42e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.336e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.637e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.25e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.0366e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.0627e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.0174e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.0478e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000160727}\PY{p}{,} \PY{l+m+mf}{0.000347618}\PY{p}{,} \PY{l+m+mf}{0.000621149}\PY{p}{,} \PY{l+m+mf}{0.00122888}\PY{p}{,} \PY{l+m+mf}{0.00255889}\PY{p}{,} \PY{l+m+mf}{0.00469872}\PY{p}{,} \PY{l+m+mf}{0.00957703}\PY{p}{,} \PY{l+m+mf}{0.0193183}\PY{p}{,} \PY{l+m+mf}{0.039568}\PY{p}{,} \PY{l+m+mf}{0.0800046}\PY{p}{,} \PY{l+m+mf}{0.157444}\PY{p}{,} \PY{l+m+mf}{0.314187}\PY{p}{,} \PY{l+m+mf}{0.637455}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{3.407e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.189e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.0481e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.0601e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.1071e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.2385e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000226551}\PY{p}{,} \PY{l+m+mf}{0.00121192}\PY{p}{,} \PY{l+m+mf}{0.000668743}\PY{p}{,} \PY{l+m+mf}{0.0013756}\PY{p}{,} \PY{l+m+mf}{0.00262651}\PY{p}{,} \PY{l+m+mf}{0.00535092}\PY{p}{,} \PY{l+m+mf}{0.00965181}\PY{p}{,} \PY{l+m+mf}{0.0196186}\PY{p}{,} \PY{l+m+mf}{0.0406361}\PY{p}{,} \PY{l+m+mf}{0.0784835}\PY{p}{,} \PY{l+m+mf}{0.155119}\PY{p}{,} \PY{l+m+mf}{0.316284}\PY{p}{,} \PY{l+m+mf}{0.626449}\PY{p}{,} \PY{l+m+mf}{1.23655}\PY{p}{,} \PY{l+m+mf}{2.46487}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{2.7263e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{7.402e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.4605e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.918e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.8114e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000116727}\PY{p}{,} \PY{l+m+mf}{0.000439255}\PY{p}{,} \PY{l+m+mf}{0.000913346}\PY{p}{,} \PY{l+m+mf}{0.0008993}\PY{p}{,} \PY{l+m+mf}{0.00182836}\PY{p}{,} \PY{l+m+mf}{0.00370334}\PY{p}{,} \PY{l+m+mf}{0.0073057}\PY{p}{,} \PY{l+m+mf}{0.0136025}\PY{p}{,} \PY{l+m+mf}{0.027434}\PY{p}{,} \PY{l+m+mf}{0.0551053}\PY{p}{,} \PY{l+m+mf}{0.110849}\PY{p}{,} \PY{l+m+mf}{0.216659}\PY{p}{,} \PY{l+m+mf}{0.43321}\PY{p}{,} \PY{l+m+mf}{0.874315}\PY{p}{,} \PY{l+m+mf}{1.76986}\PY{p}{,} \PY{l+m+mf}{3.57719}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}gauss\PYZus{}sem\PYZus{}SIMD}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{7.676e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{7.019e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.4013e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.7847e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.5811e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000112132}\PY{p}{,} \PY{l+m+mf}{0.0003093}\PY{p}{,} \PY{l+m+mf}{0.000531779}\PY{p}{,} \PY{l+m+mf}{0.000935225}\PY{p}{,} \PY{l+m+mf}{0.00208294}\PY{p}{,} \PY{l+m+mf}{0.0034665}\PY{p}{,} \PY{l+m+mf}{0.00664346}\PY{p}{,} \PY{l+m+mf}{0.0135294}\PY{p}{,} \PY{l+m+mf}{0.0270317}\PY{p}{,} \PY{l+m+mf}{0.0526527}\PY{p}{,} \PY{l+m+mf}{0.108765}\PY{p}{,} \PY{l+m+mf}{0.211101}\PY{p}{,} \PY{l+m+mf}{0.424405}\PY{p}{,} \PY{l+m+mf}{0.838082}\PY{p}{,} \PY{l+m+mf}{1.70411}\PY{p}{,} \PY{l+m+mf}{3.40143}\PY{p}{]}
+\end{Verbatim}
+
+
+    Nos vetores do arquivo \emph{t3TemposcomSIMDAVX.txt} foi adicionado
+"\_com\_SIMDAVX" ao final:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{1.454e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{6.3e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.175e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.325e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{4.563e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{9.066e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.8048e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{3.6252e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{7.2174e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000132501}\PY{p}{,} \PY{l+m+mf}{0.00037356}\PY{p}{,} \PY{l+m+mf}{0.000553376}\PY{p}{,} \PY{l+m+mf}{0.0010591}\PY{p}{,} \PY{l+m+mf}{0.00234233}\PY{p}{,} \PY{l+m+mf}{0.0046989}\PY{p}{,} \PY{l+m+mf}{0.00859473}\PY{p}{,} \PY{l+m+mf}{0.0172377}\PY{p}{,} \PY{l+m+mf}{0.0343032}\PY{p}{,} \PY{l+m+mf}{0.0688543}\PY{p}{,} \PY{l+m+mf}{0.143801}\PY{p}{,} \PY{l+m+mf}{0.284067}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{5.19e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{8.3e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.528e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.878e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.807e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.0799e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.2065e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.3945e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.4336e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000213958}\PY{p}{,} \PY{l+m+mf}{0.000338429}\PY{p}{,} \PY{l+m+mf}{0.000689932}\PY{p}{,} \PY{l+m+mf}{0.00132666}\PY{p}{,} \PY{l+m+mf}{0.00275601}\PY{p}{,} \PY{l+m+mf}{0.00526706}\PY{p}{,} \PY{l+m+mf}{0.0111565}\PY{p}{,} \PY{l+m+mf}{0.0227213}\PY{p}{,} \PY{l+m+mf}{0.0440032}\PY{p}{,} \PY{l+m+mf}{0.087137}\PY{p}{,} \PY{l+m+mf}{0.179882}\PY{p}{,} \PY{l+m+mf}{0.34834}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{5.28e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{7.73e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.456e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.89e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.721e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.1356e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.2765e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.5368e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{9.0594e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000239722}\PY{p}{,} \PY{l+m+mf}{0.000331684}\PY{p}{,} \PY{l+m+mf}{0.00117155}\PY{p}{,} \PY{l+m+mf}{0.00132816}\PY{p}{,} \PY{l+m+mf}{0.0030251}\PY{p}{,} \PY{l+m+mf}{0.0056673}\PY{p}{,} \PY{l+m+mf}{0.0113352}\PY{p}{,} \PY{l+m+mf}{0.0230072}\PY{p}{,} \PY{l+m+mf}{0.0454702}\PY{p}{,} \PY{l+m+mf}{0.0906338}\PY{p}{,} \PY{l+m+mf}{0.185884}\PY{p}{,} \PY{l+m+mf}{0.353191}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{2.409e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{3.461e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{6.912e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.379e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.7594e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.6127e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000110364}\PY{p}{,} \PY{l+m+mf}{0.000222797}\PY{p}{,} \PY{l+m+mf}{0.000443961}\PY{p}{,} \PY{l+m+mf}{0.000861739}\PY{p}{,} \PY{l+m+mf}{0.0018549}\PY{p}{,} \PY{l+m+mf}{0.00386764}\PY{p}{,} \PY{l+m+mf}{0.00695259}\PY{p}{,} \PY{l+m+mf}{0.0135528}\PY{p}{,} \PY{l+m+mf}{0.0276755}\PY{p}{,} \PY{l+m+mf}{0.0598118}\PY{p}{,} \PY{l+m+mf}{0.11182}\PY{p}{,} \PY{l+m+mf}{0.218757}\PY{p}{,} \PY{l+m+mf}{0.43771}\PY{p}{,} \PY{l+m+mf}{0.873532}\PY{p}{,} \PY{l+m+mf}{1.77404}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{1.7036e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.502e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.1418e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.2322e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.4698e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.9946e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000180651}\PY{p}{,} \PY{l+m+mf}{0.00036196}\PY{p}{,} \PY{l+m+mf}{0.000733031}\PY{p}{,} \PY{l+m+mf}{0.00206887}\PY{p}{,} \PY{l+m+mf}{0.00291708}\PY{p}{,} \PY{l+m+mf}{0.00581736}\PY{p}{,} \PY{l+m+mf}{0.0116535}\PY{p}{,} \PY{l+m+mf}{0.0226886}\PY{p}{,} \PY{l+m+mf}{0.0451693}\PY{p}{,} \PY{l+m+mf}{0.0893897}\PY{p}{,} \PY{l+m+mf}{0.178697}\PY{p}{,} \PY{l+m+mf}{0.357279}\PY{p}{,} \PY{l+m+mf}{0.797245}\PY{p}{,} \PY{l+m+mf}{1.42829}\PY{p}{,} \PY{l+m+mf}{2.87045}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{6.017e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{4.167e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{8.19e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.6469e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{3.2822e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{6.6319e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000161851}\PY{p}{,} \PY{l+m+mf}{0.000278531}\PY{p}{,} \PY{l+m+mf}{0.000534441}\PY{p}{,} \PY{l+m+mf}{0.00122299}\PY{p}{,} \PY{l+m+mf}{0.00237405}\PY{p}{,} \PY{l+m+mf}{0.00432063}\PY{p}{,} \PY{l+m+mf}{0.00824555}\PY{p}{,} \PY{l+m+mf}{0.0166538}\PY{p}{,} \PY{l+m+mf}{0.0332805}\PY{p}{,} \PY{l+m+mf}{0.0675636}\PY{p}{,} \PY{l+m+mf}{0.131279}\PY{p}{,} \PY{l+m+mf}{0.265679}\PY{p}{,} \PY{l+m+mf}{0.521966}\PY{p}{,} \PY{l+m+mf}{1.05642}\PY{p}{,} \PY{l+m+mf}{2.11947}\PY{p}{]}
+\end{Verbatim}
+
+
+    E nos vetores do arquivo \emph{t3TemposcomSIMDAVX2.txt} foi adicionado
+"\_com\_SIMDAVX2" ao final
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{1.25e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{7.27e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.759e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{3.045e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{4.619e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.0042e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.0138e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{3.9026e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{7.6026e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.00014663}\PY{p}{,} \PY{l+m+mf}{0.00028389}\PY{p}{,} \PY{l+m+mf}{0.000632229}\PY{p}{,} \PY{l+m+mf}{0.00148253}\PY{p}{,} \PY{l+m+mf}{0.00218268}\PY{p}{,} \PY{l+m+mf}{0.00429423}\PY{p}{,} \PY{l+m+mf}{0.00991874}\PY{p}{,} \PY{l+m+mf}{0.0199561}\PY{p}{,} \PY{l+m+mf}{0.0375127}\PY{p}{,} \PY{l+m+mf}{0.0704909}\PY{p}{,} \PY{l+m+mf}{0.14702}\PY{p}{,} \PY{l+m+mf}{0.300591}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{5.06e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{1.025e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{2.483e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{3.874e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.9684e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{1.2058e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.3997e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.9811e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000119936}\PY{p}{,} \PY{l+m+mf}{0.00017157}\PY{p}{,} \PY{l+m+mf}{0.000353487}\PY{p}{,} \PY{l+m+mf}{0.000680316}\PY{p}{,} \PY{l+m+mf}{0.00193171}\PY{p}{,} \PY{l+m+mf}{0.00288381}\PY{p}{,} \PY{l+m+mf}{0.005391}\PY{p}{,} \PY{l+m+mf}{0.0125181}\PY{p}{,} \PY{l+m+mf}{0.023457}\PY{p}{,} \PY{l+m+mf}{0.0466004}\PY{p}{,} \PY{l+m+mf}{0.0942948}\PY{p}{,} \PY{l+m+mf}{0.175788}\PY{p}{,} \PY{l+m+mf}{0.361102}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{5.38e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{8.74e\PYZhy{}07}\PY{p}{,} \PY{l+m+mf}{2.754e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{4.659e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{6.663e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.2641e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.5295e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{4.895e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{9.1672e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000252428}\PY{p}{,} \PY{l+m+mf}{0.000404063}\PY{p}{,} \PY{l+m+mf}{0.00115732}\PY{p}{,} \PY{l+m+mf}{0.00237434}\PY{p}{,} \PY{l+m+mf}{0.00295474}\PY{p}{,} \PY{l+m+mf}{0.00693606}\PY{p}{,} \PY{l+m+mf}{0.0121172}\PY{p}{,} \PY{l+m+mf}{0.0235936}\PY{p}{,} \PY{l+m+mf}{0.0461658}\PY{p}{,} \PY{l+m+mf}{0.08903}\PY{p}{,} \PY{l+m+mf}{0.18209}\PY{p}{,} \PY{l+m+mf}{0.370828}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{2.53e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{5.821e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.0161e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{1.3879e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{3.1756e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{6.1354e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000119826}\PY{p}{,} \PY{l+m+mf}{0.000251389}\PY{p}{,} \PY{l+m+mf}{0.000466684}\PY{p}{,} \PY{l+m+mf}{0.00134424}\PY{p}{,} \PY{l+m+mf}{0.0019}\PY{p}{,} \PY{l+m+mf}{0.00403498}\PY{p}{,} \PY{l+m+mf}{0.00932398}\PY{p}{,} \PY{l+m+mf}{0.0148225}\PY{p}{,} \PY{l+m+mf}{0.0298161}\PY{p}{,} \PY{l+m+mf}{0.0581128}\PY{p}{,} \PY{l+m+mf}{0.111862}\PY{p}{,} \PY{l+m+mf}{0.231718}\PY{p}{,} \PY{l+m+mf}{0.446757}\PY{p}{,} \PY{l+m+mf}{0.891161}\PY{p}{,} \PY{l+m+mf}{1.83572}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{2.0165e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{8.407e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.4657e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{2.8779e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{5.1946e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{9.9939e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000200892}\PY{p}{,} \PY{l+m+mf}{0.000388631}\PY{p}{,} \PY{l+m+mf}{0.0007281}\PY{p}{,} \PY{l+m+mf}{0.00174768}\PY{p}{,} \PY{l+m+mf}{0.0028564}\PY{p}{,} \PY{l+m+mf}{0.00553977}\PY{p}{,} \PY{l+m+mf}{0.010996}\PY{p}{,} \PY{l+m+mf}{0.0249523}\PY{p}{,} \PY{l+m+mf}{0.0475693}\PY{p}{,} \PY{l+m+mf}{0.0956673}\PY{p}{,} \PY{l+m+mf}{0.17897}\PY{p}{,} \PY{l+m+mf}{0.361214}\PY{p}{,} \PY{l+m+mf}{0.715297}\PY{p}{,} \PY{l+m+mf}{1.45305}\PY{p}{,} \PY{l+m+mf}{2.85702}\PY{p}{]}
+        \PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX2}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{4.398e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{6.135e\PYZhy{}06}\PY{p}{,} \PY{l+m+mf}{1.1255e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{1.6783e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{3.7993e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{7.3577e\PYZhy{}05}\PY{p}{,} \PY{l+m+mf}{0.000156988}\PY{p}{,} \PY{l+m+mf}{0.000284559}\PY{p}{,} \PY{l+m+mf}{0.000537142}\PY{p}{,} \PY{l+m+mf}{0.00168464}\PY{p}{,} \PY{l+m+mf}{0.00315085}\PY{p}{,} \PY{l+m+mf}{0.00420629}\PY{p}{,} \PY{l+m+mf}{0.00945301}\PY{p}{,} \PY{l+m+mf}{0.0179832}\PY{p}{,} \PY{l+m+mf}{0.0350306}\PY{p}{,} \PY{l+m+mf}{0.0705584}\PY{p}{,} \PY{l+m+mf}{0.132634}\PY{p}{,} \PY{l+m+mf}{0.271406}\PY{p}{,} \PY{l+m+mf}{0.559347}\PY{p}{,} \PY{l+m+mf}{1.07018}\PY{p}{,} \PY{l+m+mf}{2.10904}\PY{p}{]}
+\end{Verbatim}
+
+
+    Foi entao criada a função ``plotar'' abaixo para poder analisar
+visualmente a melhora do desempenho quando se compila habilitando a auto
+vetorização. Para facilitar a análise, ao invés do eixo x obter os
+tamanhos efetivos dos vetores usados na análise, o que atrapalharia
+devido a grande diferença entre o menor e o maior tamanho de vetor,
+usou-se o índice desses valores no vetor ``Tamanhos'':
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{n}{t} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tamanhos}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{n}{t}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+        \PY{k}{def} \PY{n+nf}{plotar}\PY{p}{(}\PY{n}{vetor\PYZus{}sem\PYZus{}SIMD}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{n}{titulo}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sem\PYZus{}SIMD}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{vetor\PYZus{}sem\PYZus{}SIMD}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sem SIMD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{com\PYZus{}SIMDAVX}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bo\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{com SIMD AVX}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{co\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{com SIMD AVX2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{indice do vetor de tamanhos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tempo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{titulo}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{handles}\PY{o}{=}\PY{p}{[}\PY{n}{sem\PYZus{}SIMD}\PY{p}{,} \PY{n}{com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{com\PYZus{}SIMDAVX2}\PY{p}{]}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Inner Prod}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sum Positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sqrt Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exp Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Log Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar}\PY{p}{(}\PY{n}{tempo\PYZus{}gauss\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gauss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Analisando os gráficos a cima é possível perceber que só existem ganhos
+de desempenhos expressivos a partir do 15o tamanho de array representado
+no vetor ``Tamanhos'':
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{tamanhos}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} 3276800
+\end{Verbatim}
+            
+    Portanto a partir do tamanho de array 3 milhões o código vetorizado
+mostra ganhos de desempenho expressivos. Por isso foi criada outra
+função (plota\_apartir15) a qual plota gráficos os quais é possível
+analisar melhor a diferença de desempenho apenas dos vetores cujo
+tamanho é maior que 3 milhões:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{n}{t}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{i}
+        \PY{k}{def} \PY{n+nf}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{vetor\PYZus{}sem\PYZus{}SIMD}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{n}{titulo}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sem\PYZus{}SIMD}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{tamanhos}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{vetor\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sem SIMD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{com\PYZus{}SIMDAVX}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{tamanhos}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bo\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{com SIMD AVX}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{tamanhos}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{vetor\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{l+m+mi}{15}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{co\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{com SIMD AVX2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{indice no vetor de tamanhos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tempo (s)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{titulo}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{handles}\PY{o}{=}\PY{p}{[}\PY{n}{sem\PYZus{}SIMD}\PY{p}{,} \PY{n}{com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{com\PYZus{}SIMDAVX2}\PY{p}{]}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Inner Prod}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sum Positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sqrt Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exp Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Log Element}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plotar\PYZus{}apartir15}\PY{p}{(}\PY{n}{tempo\PYZus{}gauss\PYZus{}sem\PYZus{}SIMD}\PY{p}{,}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{,}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gauss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_23_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Como é possível perceber analisando os gráficos a cima, em todos os
+tipos de função, em todos os tamanhos de vetores, as compilações que a
+auto vetorização estava habilitada tiveram um desempenho melhor do que
+quando não estava desabilitada. Além disso é possível perceber que o
+desempenho da arquitetura AVX é, no geral, melhor que a da arquitetura
+AVX2. Um ponto importante a se destacar é que a arquitetura AVX usa
+registradores de 128 bits, ou seja, por registrador é possível armazenar
+2 variáveis double (que é o tipo de variável usada nas funções).
+Portanto com a vetorização o ganho de desempenho deveria ser por volta
+de 2 vezes.
+
+    Para provar a afirmação acima, para descobrir os ganhos de desempenho e
+quais tipos de operações resultam em maior ganho de desempenho fez-se as
+médias dos ganhos de cada operação para cada tipo de arquitetura de auto
+vetorização:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{inner\PYZus{}prod\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{inner\PYZus{}prod\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{sum\PYZus{}positive\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{sum\PYZus{}positive\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{sqrt\PYZus{}element\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{sqrt\PYZus{}element\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{exp\PYZus{}element\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{exp\PYZus{}element\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{log\PYZus{}element\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{log\PYZus{}element\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{gauss\PYZus{}media1}\PY{o}{=}\PY{l+m+mi}{0}
+         \PY{n}{gauss\PYZus{}media2}\PY{o}{=}\PY{l+m+mi}{0}
+         
+         \PY{n}{cont} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range} \PY{p}{(}\PY{l+m+mi}{14} \PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tamanhos}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{n}{inner\PYZus{}prod\PYZus{}media1} \PY{o}{=} \PY{n}{inner\PYZus{}prod\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{inner\PYZus{}prod\PYZus{}media2} \PY{o}{=} \PY{n}{inner\PYZus{}prod\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}inner\PYZus{}prod\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{sum\PYZus{}positive\PYZus{}media1} \PY{o}{=} \PY{n}{sum\PYZus{}positive\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{sum\PYZus{}positive\PYZus{}media2} \PY{o}{=} \PY{n}{sum\PYZus{}positive\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}sum\PYZus{}positive\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{sqrt\PYZus{}element\PYZus{}media1} \PY{o}{=} \PY{n}{sqrt\PYZus{}element\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{sqrt\PYZus{}element\PYZus{}media2} \PY{o}{=} \PY{n}{sqrt\PYZus{}element\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}sqrt\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{exp\PYZus{}element\PYZus{}media1} \PY{o}{=} \PY{n}{exp\PYZus{}element\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{exp\PYZus{}element\PYZus{}media2} \PY{o}{=} \PY{n}{exp\PYZus{}element\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}exp\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{log\PYZus{}element\PYZus{}media1} \PY{o}{=} \PY{n}{log\PYZus{}element\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{log\PYZus{}element\PYZus{}media2} \PY{o}{=} \PY{n}{log\PYZus{}element\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}log\PYZus{}element\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{gauss\PYZus{}media1} \PY{o}{=} \PY{n}{gauss\PYZus{}media1} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}gauss\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             \PY{n}{gauss\PYZus{}media2} \PY{o}{=} \PY{n}{gauss\PYZus{}media2} \PY{o}{+} \PY{p}{(}\PY{n}{tempo\PYZus{}gauss\PYZus{}sem\PYZus{}SIMD}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{/}\PY{n}{tempo\PYZus{}gauss\PYZus{}com\PYZus{}SIMDAVX2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+             
+             \PY{n}{cont} \PY{o}{=} \PY{n}{cont} \PY{o}{+}\PY{l+m+mi}{1}
+             
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX para inner\PYZus{}prod= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{inner\PYZus{}prod\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 para inner\PYZus{}prod= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{inner\PYZus{}prod\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX para sum\PYZus{}positive= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{sum\PYZus{}positive\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 para sum\PYZus{}positive= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{sum\PYZus{}positive\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX para sqrt\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{sqrt\PYZus{}element\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 para sqrt\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{sqrt\PYZus{}element\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX para exp\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{exp\PYZus{}element\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 para exp\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{exp\PYZus{}element\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX para log\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{log\PYZus{}element\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 para log\PYZus{}element= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{log\PYZus{}element\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX gauss= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{gauss\PYZus{}media1}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Média de ganho AVX2 gauss= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{gauss\PYZus{}media2}\PY{o}{/}\PY{n}{cont}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Média de ganho AVX para inner\_prod= 1.2495002775526947
+Média de ganho AVX2 para inner\_prod= 1.1824885101186011
+
+Média de ganho AVX para sum\_positive= 1.3316190822700975
+Média de ganho AVX2 para sum\_positive= 1.2729372167273636
+
+Média de ganho AVX para sqrt\_element= 1.729382291685068
+Média de ganho AVX2 para sqrt\_element= 1.656855290548903
+
+Média de ganho AVX para exp\_element= 1.4071008664282052
+Média de ganho AVX2 para exp\_element= 1.3710847159997448
+
+Média de ganho AVX para log\_element= 1.2095756245519615
+Média de ganho AVX2 para log\_element= 1.2027758751315136
+
+Média de ganho AVX gauss= 1.602992514072008
+Média de ganho AVX2 gauss= 1.557619576014062
+
+    \end{Verbatim}
+
+    Analisando os resultados é possível comprovar que a arquitetura AVX2
+possui um melhor desempenho quando comparada com a arquitetura AVX. No
+entanto, o ganho, no geral, é um pouco distante do esperado (que era de
+2 vezes). Além disso é possivel perceber que a operação ``gauss'' e
+``sqrt\_element'' são as que resultaram no maior ganho de desempenho.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
