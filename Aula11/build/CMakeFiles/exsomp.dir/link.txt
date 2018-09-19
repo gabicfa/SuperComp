@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/exsomp.dir/exemplo-fs.cpp.o  -o exsomp /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so 

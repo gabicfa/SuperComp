@@ -31,14 +31,11 @@ void busca_no_arquivo(string path, string term) {
     }
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char* argv[]){
 
-    string word;
+    string word = "people";
 
-    cout << "Qual a palavra que se deseja pesquisar:";
-    cin >> word;
-
-    path p("..");
+    path p(argv[1]);
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     #pragma omp parallel
     {

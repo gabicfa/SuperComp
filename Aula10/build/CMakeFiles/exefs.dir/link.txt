@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/exefs.dir/exemplo-fs.cpp.o  -o exefs /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so /usr/lib/gcc/x86_64-linux-gnu/5/libgomp.so -lpthread 

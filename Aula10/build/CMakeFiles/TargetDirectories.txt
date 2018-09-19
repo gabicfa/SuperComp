@@ -1,0 +1,4 @@
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula10/build/CMakeFiles/rebuild_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula10/build/CMakeFiles/edit_cache.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula10/build/CMakeFiles/exsomp.dir
+/home/gabicfa/Documents/SuperComp/SuperComp/Aula10/build/CMakeFiles/exefs.dir
