@@ -1,7 +1,11 @@
 #include <thread>
 #include <iostream>
+#include <mutex>
+
+std::mutex mtx;
 
 void thread_f(int i) {
+  std::unique_lock<std::mutex> lck(mtx);
   std::cout << "thread id= " << i << std::endl;
 }
 
