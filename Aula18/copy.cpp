@@ -17,11 +17,6 @@ int main(int argc, char* argv[])
     FILE *pFile = fopen (path , "r");
     SkipComments(pFile);
     readImage(path, &img);
-    
-    // createImage(&img, img.row, img.col, img.max_gray);
     writeImage(name, &img, 0);
-    
-
-
     return 0;
 }
