@@ -21,10 +21,12 @@ int main(int argc, char* argv[])
         FILE *pFile = fopen (path , "r");
         SkipComments(pFile);
         readImage(path, &img);
-        int mult  = img.row/(n-2);
-        cout << mult << '\n';
-         
+        // int mult  = img.row/(n-2);
+        // for(int p=1; p< n-1; p++){
+
+        // }
     }
+    else
     
     // createImage(&img, img.row, img.col, img.max_gray);
     // writeImage(name, &img, 0);

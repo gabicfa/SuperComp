@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     mpi::environment env(argc, argv);
     mpi::communicator world;
     int n = world.size();
-
+    
     if(world.rank()==0){
         int data;
         world.send(world.rank()+1, 0, square(world.rank()));
