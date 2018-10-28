@@ -53,7 +53,7 @@ void readImage(const char *file_name, PGMData *data)
    fgetc(pgmFile);
  
    data->matrix = (int *)malloc(sizeof(int) * data->row * data->col);
-   for (i = 0; i < data->row; ++i)
+   for (i = 0; i < data->row; ++i){
       for (j = 0; j < data->col; ++j) {
          if(binary) {
             data->matrix[i*data->col+j] = fgetc(pgmFile);
@@ -62,7 +62,7 @@ void readImage(const char *file_name, PGMData *data)
             data->matrix[i*data->col+j] = tmp;
          }
       }
- 
+   }
    fclose(pgmFile);
 }
 

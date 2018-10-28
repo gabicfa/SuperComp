@@ -3,6 +3,12 @@
         "array": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.ipp": "cpp",
+        "iostream": "cpp",
+        "vector": "cpp",
+        "deque": "cpp",
+        "typeindex": "cpp",
+        "typeinfo": "cpp"
     }
 }
