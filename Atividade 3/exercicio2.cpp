@@ -36,6 +36,7 @@ int main(int argc, char* argv[])
 {   
     int count = 0;
     vector<char*> imagens; 
+
     while(argv[++count] != NULL){
         if(count!=0){
             imagens.push_back(argv[count]);
@@ -47,103 +48,54 @@ int main(int argc, char* argv[])
         listName.push_back(argv[i]);
     }
 
-
     mpi::environment env(argc, argv);
     mpi::communicator world;
     int n = world.size();
     int numImagens = imagens.size();
+    int processoAtual = 1;
 
     if(world.rank()==0){
-        for (int r = 1; r <  world.size(); r++){
-            
-            if(r==1){
-                for(int i=0; i<=numImagens/(world.size()-1); i++){
-                    _PGMData imagemIn;
-                    FILE *pFile = fopen (imagens[i] , "r");
-                    readImage(imagens[i], &imagemIn);
-                    vector<vector<int>> imgMatrix = malloc_to_vector(imagemIn.matrix, imagemIn.row, imagemIn.col);
-                    world.send(r, 0, imagemIn);
-                    world.send(r, 1, imgMatrix);
-                    world.send(r, 2, listName[i]);
-                }
-            }
-            else if(r==world.size()-1){
-                for(int i= (r-1) * numImagens/(world.size()-1) + 1; i<numImagens; i++){
-                    _PGMData imagemIn;
-                    FILE *pFile = fopen (imagens[i] , "r");
-                    readImage(imagens[i], &imagemIn);
-                    vector<vector<int>> imgMatrix = malloc_to_vector(imagemIn.matrix, imagemIn.row, imagemIn.col);
-                    world.send(r, 0, imagemIn);
-                    world.send(r, 1, imgMatrix);
-                    world.send(r, 2, listName[i]);
-                }
-            }
-            else{
-                for(int i= (r-1) * numImagens/(world.size()-1) + 1; i<=r * numImagens/(world.size()-1); i++){
-                    _PGMData imagemIn;
-                    FILE *pFile = fopen (imagens[i] , "r");
-                    readImage(imagens[i], &imagemIn);
-                    vector<vector<int>> imgMatrix = malloc_to_vector(imagemIn.matrix, imagemIn.row, imagemIn.col);
-                    world.send(r, 0, imagemIn);
-                    world.send(r, 1, imgMatrix);
-                    world.send(r, 2, listName[i]);
-                }
-            } 
-        }
-    }
-
-    if(world.rank()==1){
-        for(int i=0; i<=numImagens/(world.size()-1); i++){
+        for (int i = 0; i <  listName.size(); i++){
             _PGMData imagemIn;
-            _PGMData imagemOut;
-            string name;
-            vector<vector<int>> imgMatrix;
-            world.recv(0,0,imagemIn);
-            world.recv(0,1,imgMatrix);
-            world.recv(0,2,name);
-            name.insert(name.size()-4,"_edges");
-            cout << name << '\n';
-            int *mat = (int *)malloc(sizeof(int) * imagemIn.row * imagemIn.col);
-            vector_to_malloc(imgMatrix, mat, imagemIn.row, imagemIn.col);
-            imagemIn.matrix = mat;
-
-            createImage(&imagemOut, imagemIn.row, imagemIn.col, imagemIn.max_gray);
-            edgeFilter(imagemIn.matrix, imagemOut.matrix, 0, imagemIn.row, 0, imagemIn.col);
-            writeImage(name.c_str(), &imagemOut, 0);
-        }
-    }
-    else if(world.rank()==n-1){
-        for(int i= (world.rank()-1) * numImagens/(world.size()-1) + 1; i<numImagens; i++){
-            _PGMData imagemIn;
-            _PGMData imagemOut;
-            string name;
-            vector<vector<int>> imgMatrix;
-            world.recv(0,0,imagemIn);
-            world.recv(0,1,imgMatrix);
-            world.recv(0,2,name);
-            name.insert(name.size()-4,"_edges");
-            cout << name << '\n';
+            FILE *pFile = fopen (imagens[i] , "r");
+            readImage(imagens[i], &imagemIn);
+            vector<vector<int>> imgMatrix = malloc_to_vector(imagemIn.matrix, imagemIn.row, imagemIn.col);
+            world.send(processoAtual, 2, listName[i]);
+            world.send(processoAtual, 0, imagemIn);
+            world.send(processoAtual, 1, imgMatrix);
+            processoAtual+=1;
             
-            int *mat = (int *)malloc(sizeof(int) * imagemIn.row * imagemIn.col);
-            vector_to_malloc(imgMatrix, mat, imagemIn.row, imagemIn.col);
-            imagemIn.matrix = mat;
+            if(processoAtual == n){
+                processoAtual = 1;
+            }    
+        }
 
-            createImage(&imagemOut, imagemIn.row, imagemIn.col, imagemIn.max_gray);
-            edgeFilter(imagemIn.matrix, imagemOut.matrix, 0, imagemIn.row, 0, imagemIn.col);
-            writeImage(name.c_str(), &imagemOut, 0);
+        for (int p = 1; p <  world.size(); p++){
+            string end = "null";
+            world.send(p, 2, end);
         }
     }
+
     else{
-        for(int i= (world.rank()-1) * numImagens/(world.size()-1) + 1; i<=world.rank() * numImagens/(world.size()-1); i++){
+        while(true){
+
             _PGMData imagemIn;
             _PGMData imagemOut;
             string name;
             vector<vector<int>> imgMatrix;
+            
+            world.recv(0,2,name);
+
+            string null = "null";
+            if (null.compare(name) == 0){
+                break;
+            }
+
             world.recv(0,0,imagemIn);
             world.recv(0,1,imgMatrix);
-            world.recv(0,2,name);
-            name.insert(name.size()-4,"_edges");            
-
+            
+            name.insert(name.size()-4,"_edges");
+            
             int *mat = (int *)malloc(sizeof(int) * imagemIn.row * imagemIn.col);
             vector_to_malloc(imgMatrix, mat, imagemIn.row, imagemIn.col);
             imagemIn.matrix = mat;
@@ -152,10 +104,8 @@ int main(int argc, char* argv[])
             edgeFilter(imagemIn.matrix, imagemOut.matrix, 0, imagemIn.row, 0, imagemIn.col);
             writeImage(name.c_str(), &imagemOut, 0);
         }
+
     }
-
-    
-
     return 0;
 }
 
