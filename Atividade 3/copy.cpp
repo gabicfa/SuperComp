@@ -1,10 +1,7 @@
-// #include <boost/mpi/environment.hpp>
-// #include <boost/mpi/communicator.hpp>
 #include <iostream>
 #include <string>
 #include "image.h"
 
-// namespace mpi = boost::mpi;
 using namespace std;
 
 int main(int argc, char* argv[])

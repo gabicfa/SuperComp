@@ -28,21 +28,21 @@ void edgeFilter(int *in, int *out, int rowStart, int rowEnd, int colStart, int c
 }
 
 
-int main(int argc, char** argv)
-{
+// int main(int argc, char** argv)
+// {
 
-   // Estruturas que organizam as imagens PGM
-   PGMData *imagemIn = malloc(sizeof(PGMData));
-   PGMData *imagemOut = malloc(sizeof(PGMData));
+//    // Estruturas que organizam as imagens PGM
+//    PGMData *imagemIn = malloc(sizeof(PGMData));
+//    PGMData *imagemOut = malloc(sizeof(PGMData));
 
-   readImage(argv[1],imagemIn);
+//    readImage(argv[1],imagemIn);
 
-   createImage(imagemOut, imagemIn->row, imagemIn->col, imagemIn->max_gray);
+//    createImage(imagemOut, imagemIn->row, imagemIn->col, imagemIn->max_gray);
 
-   // Processa os dados da imagem para a deteccao de borda
-   edgeFilter(imagemIn->matrix, imagemOut->matrix, 0, imagemIn->row, 0, imagemIn->col);
+//    // Processa os dados da imagem para a deteccao de borda
+//    edgeFilter(imagemIn->matrix, imagemOut->matrix, 0, imagemIn->row, 0, imagemIn->col);
 
-   writeImage(argv[2],imagemOut,0);
+//    writeImage(argv[2],imagemOut,0);
 
-   return 0;
-}
+//    return 0;
+// }

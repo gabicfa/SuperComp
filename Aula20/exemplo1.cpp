@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     
     if (world.rank() == 0) {
         std::string s[2];
-            std::vector <boost::mpi::request> r; 
+        std::vector <boost::mpi::request> r; 
 
         // auto r1 = ;
         // auto r2 = ;
