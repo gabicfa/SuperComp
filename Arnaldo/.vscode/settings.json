@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "chrono": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp",
+        "deque": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp"
+    }
+}
