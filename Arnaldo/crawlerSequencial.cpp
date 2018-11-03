@@ -5,10 +5,8 @@
 #include <chrono>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <curl/curlbuild.h>
 #include <sstream>
 #include <fstream>
-// #include <cpr/cpr.h>
 
 using namespace std;
 using namespace boost;
@@ -37,14 +35,6 @@ string download(string url) {
         curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }
-
-    // auto response = cpr::Get(cpr::Url{url});
-    // readBuffer = response.text;
-
-    // ofstream myfile;
-    // myfile.open ("../page.txt");
-    // myfile << readBuffer;
-    // myfile.close();
 
     return readBuffer;
 }

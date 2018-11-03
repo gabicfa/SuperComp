@@ -39,14 +39,6 @@ string download(string url) {
         curl_easy_cleanup(curl);
     }
 
-    // auto response = cpr::Get(cpr::Url{url});
-    // readBuffer = response.text;
-
-    // ofstream myfile;
-    // myfile.open ("../page.txt");
-    // myfile << readBuffer;
-    // myfile.close();
-
     return readBuffer;
 }
 

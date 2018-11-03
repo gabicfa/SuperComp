@@ -27,8 +27,6 @@ curl/curl.h
 -
 curl/easy.h
 -
-curl/curlbuild.h
--
 fstream
 -
 semaphore.cpp
