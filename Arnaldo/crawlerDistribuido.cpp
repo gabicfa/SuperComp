@@ -11,12 +11,10 @@
 #include <curl/curlbuild.h>
 #include <sstream>
 #include <fstream>
-// #include <cpr/cpr.h>
 
-// namespace mpi = boost::mpi;
 using namespace std;
 using namespace boost;
-// using namespace std::chrono;
+using namespace std::chrono;
 
 
 //função auxiliar para a funcao "download"
@@ -87,8 +85,10 @@ vector<string> findMatchesPages(string page, int totalPages, int numPag){
     if(numPag != totalPages){
         regex nextPage("<link rel=\"next\" href=\"([^\"]+)");
         findMatches(page, nextPage, lastPage, 1);
-        lastPage[0] = "https://www.magazineluiza.com.br"+lastPage[0];
-        urlsProducts.push_back(lastPage[0]);
+        if(lastPage.size()>0){
+            lastPage[0] = "https://www.magazineluiza.com.br"+lastPage[0];
+            urlsProducts.push_back(lastPage[0]);
+        }
         return urlsProducts;
     }
     //Caso seja a última página, não tem próxima página
@@ -153,10 +153,10 @@ string collectProduct(string page, string url){
     regex parcelado("installmentAmount\": \" ([^\"]+)");
     findMatches(page, parcelado, buffer, 1);
     if(buffer.size()>0){
-        string precoParcelado = buffer[0];
+        precoParcelado = buffer[0];
     }
     else{
-        string precoParcelado = "0";
+        precoParcelado = "0";
     } 
 
     buffer.clear();
@@ -196,65 +196,106 @@ string collectProduct(string page, string url){
 
 int main(int argc, char** argv) {
 
+    high_resolution_clock::time_point total1, total2;
+    duration<double> tempoTotal;
+    total1 = high_resolution_clock::now();
+
     string url = argv[1];
 
     boost::mpi::environment env(argc, argv);   
     boost::mpi::communicator world;
 
     int n = world.size();
-    int processoAtual = 1;
-
+    
     if(world.rank()==0){
+        
         vector<string> urls;
         string productPage;
         string nextPageUrl;
+        int numProdTotal=0;
+        int processoAtual = 1;
 
-        string currentPage = download(url);
-        int total =  totalPages(currentPage);
-
+        high_resolution_clock::time_point t1, t2, t3;
+        duration<double> ocioso;
+        duration<double> tempoProd;
+        double tempoOcioso=0;
+        
+        t1 = high_resolution_clock::now();
+            string currentPage = download(url);
+        t2 = high_resolution_clock::now();
+        ocioso = duration_cast<duration<double> >(t2 - t1);
+        if(ocioso.count()>0)tempoOcioso += ocioso.count();
+        
+        int total = totalPages(currentPage);
         for(int p=1; p<=total; p++){
-            cout << p << '\n';
+            cout << "pagina " << p << "/" << total << '\n';
             urls = findMatchesPages(currentPage, total, p);
-            nextPageUrl = urls[urls.size()-1];
-            urls.pop_back();
-            
+            if(urls.size()>0){
+                nextPageUrl = urls[urls.size()-1];
+                urls.pop_back();
+            }
+            else{
+                cerr << "Erro ao carregar pagina " << p << "\n";
+                break;
+            }
+
             for(unsigned int u=0; u<urls.size(); u++){
-                
                 world.send(processoAtual, 0, urls[u]);
-               
+                numProdTotal+=1;
                 processoAtual+=1;
                 if(processoAtual == n-1){
                     processoAtual = 1;
                 } 
             }
-            currentPage = download(nextPageUrl);
+
+            t1 = high_resolution_clock::now();
+                currentPage = download(nextPageUrl);
+            t2 = high_resolution_clock::now();
+            ocioso = duration_cast<duration<double> >(t2 - t1);
+            if(ocioso.count()>0)tempoOcioso += ocioso.count();
         }
 
         for (int p = 1; p < n-1; p++){
             string end = ("end");
             world.send(p, 0, end);
         }
+        
+        world.send(n-1, 2, tempoOcioso);
+        world.send(n-1, 1, numProdTotal);  
     }
 
     else if (world.rank()!= n-1){
-        int numProd=0;
+
+        high_resolution_clock::time_point t1, t2, t3;
+
+        duration<double> ocioso;
+        duration<double> tempoProd;
+        double tempoOcioso=0;
+
         while(true){
             string productPage;
             string url;
-
             world.recv(0,0,url);
 
             if(url.compare("end")==0){
                 string out = "end";
                 world.send(n-1, 0, out);
-                world.send(n-1, 1, numProd);
+                world.send(n-1, 2, tempoOcioso);
                 break;
             }
 
-            productPage = download(url);
+            t1 = high_resolution_clock::now();
+                productPage = download(url);
+            t2 = high_resolution_clock::now();
+            ocioso = duration_cast<duration<double> >(t2 - t1);
+            if(ocioso.count()>0)tempoOcioso += ocioso.count();            
+
             if(productPage.size()>0){
-                numProd+=1;
                 string out = collectProduct(productPage, url);
+                t3 = high_resolution_clock::now();
+                tempoProd = duration_cast<duration<double> >(t3 - t1);
+                // out+="Tempo gasto no produto: " + to_string(tempoProd.count())+'\n';
+                // cerr << "Tempo gasto no produto: " << to_string(tempoProd.count())<<'\n';
                 world.send(n-1, 0, out);
             }
         } 
@@ -262,19 +303,25 @@ int main(int argc, char** argv) {
 
     else{
         int countEnd = 0;
-        processoAtual = 1;
+        int numProdTotal;
+        int processoAtual = 1;
+        double tempoOcioso;
+        double tempoOciosoTotal=0;
         string out;
-        int numProd;
-        int numProdTotal=0;
         string jsonFinal ="";
+
         while(true){
             
             world.recv(processoAtual, 0, out);
+
             if(out.compare("end")==0){
                 countEnd+=1;
-                world.recv(processoAtual, 1, numProd);
-                numProdTotal+=numProd;
+                world.recv(processoAtual, 2, tempoOcioso);
+                tempoOciosoTotal+=tempoOcioso;
                 if(countEnd>=n-2){
+                    world.recv(0, 1, numProdTotal);
+                    world.recv(0, 2, tempoOcioso);
+                    tempoOciosoTotal+=tempoOcioso;
                     break;
                 }
             }
@@ -288,7 +335,19 @@ int main(int argc, char** argv) {
                 processoAtual = 1;
             } 
         }
+    
         cout << jsonFinal << '\n';
-        cout << numProdTotal << '\n';
+
+        ofstream myfile;
+        myfile.open ("../outDIS.txt");
+        myfile << tempoOciosoTotal << '\n';
+        myfile << numProdTotal << '\n';
+
+        total2 = high_resolution_clock::now();
+        tempoTotal = duration_cast<duration<double> >(total2 - total1);
+
+        myfile << tempoTotal.count()/numProdTotal << '\n';
+        myfile << tempoTotal.count() << '\n';
+        myfile.close();
     }
 }

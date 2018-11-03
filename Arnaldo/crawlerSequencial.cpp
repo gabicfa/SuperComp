@@ -83,8 +83,10 @@ vector<string> findMatchesPages(string page, int totalPages, int numPag){
     if(numPag != totalPages){
         regex nextPage("<link rel=\"next\" href=\"([^\"]+)");
         findMatches(page, nextPage, lastPage, 1);
-        lastPage[0] = "https://www.magazineluiza.com.br"+lastPage[0];
-        urlsProducts.push_back(lastPage[0]);
+        if(lastPage.size()>0){
+            lastPage[0] = "https://www.magazineluiza.com.br"+lastPage[0];
+            urlsProducts.push_back(lastPage[0]);
+        }
         return urlsProducts;
     }
     //Caso seja a última página, não tem próxima página
@@ -96,42 +98,84 @@ vector<string> findMatchesPages(string page, int totalPages, int numPag){
 
 /*A partir da página de produto page é possivel extrair as informações necessárias, 
 a url do produto já é informação adquirida anteriormente*/
-void collectProduct(string page, string url){
+string collectProduct(string page, string url){
     vector<string> buffer;
+    string productName;
+    string productDescription;
+    string productImage;
+    string productPrice;
+    string precoParcelado;
+    string numeroParcelas;
+    string productCategory;
 
     regex name ("<h1 class=\"header-product__title\" itemprop=\"name\">([^<]+)");
     findMatches(page, name, buffer, 1);
-    string productName = buffer[0];
+    if(buffer.size()>0){
+        productName = buffer[0];
+    }
+    else{
+        productName = " ";
+    } 
 
     buffer.clear();
     regex desc("<h2 class=\"description__product-title\">([^<]+)</h2>    <p class=\"description__text\"></p>([^<]+)");
     findMatches(page, desc, buffer, 2);
-    string productDescription = buffer[0];
+    if(buffer.size()>0){
+        productDescription = buffer[0];
+    }
+    else{
+        productDescription = " ";
+    } 
 
     buffer.clear();
     regex image("showcase-product__big-img js-showcase-big-img\" src=\"(https[^\"]+)");
     findMatches(page, image, buffer, 1);
-    string productImage = buffer[0];
+    if(buffer.size()>0){
+        productImage = buffer[0];
+    }
+    else{
+        productImage = " ";
+    } 
 
     buffer.clear();
     regex price("price-template__text[^>]+>([^<]+)</span>");
     findMatches(page, price, buffer, 1);
-    string productPrice = buffer[0];
-
+    if(buffer.size()>0){
+        productPrice = buffer[0];
+    }
+    else{
+        productPrice = "0";
+    } 
+    
     buffer.clear();
     regex parcelado("installmentAmount\": \" ([^\"]+)");
     findMatches(page, parcelado, buffer, 1);
-    string precoParcelado = buffer.front();
+    if(buffer.size()>0){
+        precoParcelado = buffer[0];
+    }
+    else{
+        precoParcelado = "0";
+    } 
 
     buffer.clear();
     regex numparcelas("installmentQuantity\": \"([^\"]+)");
     findMatches(page, numparcelas, buffer, 1);
-    string numeroParcelas = buffer.front();
+    if(buffer.size()>0){
+        numeroParcelas = buffer[0];
+    }
+    else{
+        numeroParcelas = "0";
+    } 
 
     buffer.clear();
     regex category("itemprop=\"item\"> ([^>]+)</a>  </li>  </ul>");
     findMatches(page, category, buffer, 1);
-    string productCategory = buffer.front();
+    if(buffer.size()>0){
+        productCategory = buffer[0];
+    }
+    else{
+        productCategory = " ";
+    }
 
     string out = 
     "  {\n"
@@ -145,7 +189,7 @@ void collectProduct(string page, string url){
     "    \"url\" : \"" + url +"\",\n"
     "  },\n";
 
-    cout << out;
+    return out;
 }
 
 int main(int argc, char** argv) {
@@ -158,12 +202,12 @@ int main(int argc, char** argv) {
     vector<string> urls;
     string productPage;
     string nextPageUrl;
+    string out = "";
 
     high_resolution_clock::time_point t1, t2, t3;
     duration<double> ocioso;
     duration<double> tempoProd;
     double tempoOcioso;
-    double tempoMedioPorProduto=0;
     double numProd=0;
 
     t1 = high_resolution_clock::now();
@@ -175,35 +219,41 @@ int main(int argc, char** argv) {
     int total =  totalPages(currentPage);
 
     for(int p=1; p<=total; p++){
+        cout << "pagina " << p << "/" << total << '\n';
         urls = findMatchesPages(currentPage, total, p);
-        for(unsigned int u=0; u<urls.size()-1; u++){
-            t1 = high_resolution_clock::now();
-                    
-                productPage = download(urls[u]);
+        if(urls.size()>0){
+            for(unsigned int u=0; u<urls.size()-1; u++){
+                cout << "   produto " << u+1 << "/" << urls.size()-1 << '\n';
+                t1 = high_resolution_clock::now();
+                        
+                    productPage = download(urls[u]);
 
+                t2 = high_resolution_clock::now();
+                ocioso = duration_cast<duration<double> >(t2 - t1);
+                tempoOcioso += ocioso.count();
+
+                    out+=collectProduct(productPage, urls[u]);
+
+                t3 = high_resolution_clock::now();
+                tempoProd = duration_cast<duration<double> >(t3 - t1);
+                // cerr << "Tempo gasto no produto: " << tempoProd.count() << '\n' << '\n'; //Tempo gasto no produto
+                numProd+=1;
+            }
+            nextPageUrl = urls[urls.size()-1];
+            t1 = high_resolution_clock::now();
+                currentPage = download(nextPageUrl);
             t2 = high_resolution_clock::now();
             ocioso = duration_cast<duration<double> >(t2 - t1);
             tempoOcioso += ocioso.count();
-
-                collectProduct(productPage, urls[u]);
-
-            t3 = high_resolution_clock::now();
-            tempoProd = duration_cast<duration<double> >(t3 - t1);
-            // cout << tempoProd.count() << '\n'; //Tempo gasto no produto
-            // cout <<'\n';
-            tempoMedioPorProduto +=tempoProd.count();
-            numProd+=1;
         }
-        nextPageUrl = urls[urls.size()-1];
-        t1 = high_resolution_clock::now();
-            currentPage = download(nextPageUrl);
-        t2 = high_resolution_clock::now();
-        ocioso = duration_cast<duration<double> >(t2 - t1);
-        tempoOcioso += ocioso.count();
+        else{
+            cerr << "Erro ao carregar pagina " << p << "\n";
+            break;
+        }
     }
-
+    cout << out;
     ofstream myfile;
-    myfile.open ("../out.txt");
+    myfile.open ("../outSEQ.txt");
     myfile << tempoOcioso << '\n';
     myfile << numProd << '\n';
 
