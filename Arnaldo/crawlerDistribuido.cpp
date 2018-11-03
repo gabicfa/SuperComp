@@ -8,7 +8,6 @@
 #include <chrono>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <curl/curlbuild.h>
 #include <sstream>
 #include <fstream>
 

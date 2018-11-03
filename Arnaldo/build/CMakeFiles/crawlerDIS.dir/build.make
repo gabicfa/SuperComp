@@ -81,8 +81,6 @@ crawlerDIS: CMakeFiles/crawlerDIS.dir/crawlerDistribuido.cpp.o
 crawlerDIS: CMakeFiles/crawlerDIS.dir/build.make
 crawlerDIS: /usr/lib/openmpi/lib/libmpi_cxx.so
 crawlerDIS: /usr/lib/openmpi/lib/libmpi.so
-crawlerDIS: /usr/lib/openmpi/lib/libmpi_cxx.so
-crawlerDIS: /usr/lib/openmpi/lib/libmpi.so
 crawlerDIS: CMakeFiles/crawlerDIS.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/gabicfa/Documents/SuperComp/Projetos/Arnaldo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable crawlerDIS"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/crawlerDIS.dir/link.txt --verbose=$(VERBOSE)
